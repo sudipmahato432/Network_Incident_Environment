@@ -10,17 +10,26 @@ from openai import OpenAI
 from mock_network_env.models import NetworkAction
 from mock_network_env.env import NetworkIncidentEnv
 
-IMAGE_NAME = os.getenv("IMAGE_NAME") 
-API_KEY = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
+# --- ALIGNED WITH JUDGES' REQUIREMENTS ---
+HF_TOKEN = os.getenv("HF_TOKEN")
+API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
+MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
+LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME") 
+# ------------------------------------------
 
-API_BASE_URL = os.getenv("API_BASE_URL") or "https://router.huggingface.co/v1"
-MODEL_NAME = os.getenv("MODEL_NAME") or "Qwen/Qwen2.5-72B-Instruct"
+# Maintain your other logic
 TASK_NAME = os.getenv("NETWORK_ENV_TASK", "easy")
 BENCHMARK = os.getenv("NETWORK_ENV_BENCHMARK", "network-incident-response")
 MAX_STEPS = 15
-TEMPERATURE = 0.2 # Lower temperature for more deterministic bash commands
+TEMPERATURE = 0.2 
 MAX_TOKENS = 150
-SUCCESS_SCORE_THRESHOLD = 0.7  
+SUCCESS_SCORE_THRESHOLD = 0.7
+
+# Ensure the OpenAI client uses the newly named HF_TOKEN
+client = OpenAI(
+    base_url=API_BASE_URL,
+    api_key=HF_TOKEN, # Use the aligned variable name here
+)
 
 # Max total reward is 1.0 (0.7 for the fix + 0.3 for the diagnostics)
 MAX_TOTAL_REWARD = 1.0
@@ -153,10 +162,9 @@ def get_model_message(client: OpenAI, step: int, last_stdout: str, last_stderr: 
         return "echo 'Model failure'"
 
 async def main() -> None:
-    client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
-    
+    # Use the globally initialized client
     # Initialize our custom environment
-    env = await NetworkIncidentEnv.from_docker_image(IMAGE_NAME)
+    env = await NetworkIncidentEnv.from_docker_image(LOCAL_IMAGE_NAME)
 
     history: List[str] = []
     rewards: List[float] = []
