@@ -31,6 +31,15 @@ The environment provides three distinct failure scenarios:
    * **Issue**: Incorrect gateway configuration for a specific subnet.
    * **Goal**: Update the routing table and verify destination reachability.
 
+## Baseline Scores
+The following benchmarks were recorded using **Qwen/Qwen2.5-72B-Instruct** via the Hugging Face Inference API.
+
+| Task Level | Status | Score | Avg. Steps | Key Observation |
+|:---|:---|:---|:---|:---|
+| **Easy** | ✅ PASSED | **0.900** | 3/15 | Successfully utilized syslog to find config errors. |
+| **Medium** | ✅ PASSED | **1.000** | 8/15 | Flushed iptables and verified connectivity via ping. |
+| **Hard** | ❌ PARTIAL | **0.300** | 15/15 | Correctly diagnosed routing; failed on syntax within step limit. |
+
 ## Setup and Usage
 
 ### Prerequisites
