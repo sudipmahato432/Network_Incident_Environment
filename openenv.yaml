@@ -1,0 +1,10 @@
+version: "1.0.0"
+name: "network-incident-response"
+description: "A simulated terminal environment for debugging server and routing failures."
+tasks:
+  - id: "task-1-easy-nginx"
+    description: "Fix a misconfigured Nginx server."
+  - id: "task-2-medium-firewall"
+    description: "Diagnose and remove a blocking iptables rule."
+  - id: "task-3-hard-routing"
+    description: "Fix an asymmetric routing blackhole."
