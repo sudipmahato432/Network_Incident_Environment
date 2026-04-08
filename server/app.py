@@ -1,5 +1,12 @@
+import os
+import sys
 from fastapi import FastAPI
+
+# Add parent directory to path so it can find mock_network_env
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from mock_network_env.env import NetworkIncidentEnv
+from mock_network_env.models import NetworkAction
 
 app = FastAPI()
 env = NetworkIncidentEnv()

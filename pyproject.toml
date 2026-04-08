@@ -24,7 +24,7 @@ dependencies = [
 
 # CRITICAL: Fixes "Missing [project.scripts] server entry point"
 [project.scripts]
-server = "app:main"
+server = "server.app:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
