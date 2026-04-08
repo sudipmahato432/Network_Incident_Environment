@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,14 +8,28 @@ version = "0.1.0"
 description = "A Network Incident Response environment for OpenEnv"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-    "fastapi",
-    "uvicorn",
-    "pydantic",
-    "openai",
-    "pyyaml",
+license = {text = "MIT"}
+authors = [
+    {name = "Sudip Mahato"}
 ]
+# CRITICAL: Aligned with openenv-core>=0.2.0 check
+dependencies = [
+    "openenv-core>=0.2.3",
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "pydantic>=2.0.0",
+    "openai>=1.0.0",
+    "pyyaml>=6.0",
+]
+
+# CRITICAL: Fixes "Missing [project.scripts] server entry point"
+[project.scripts]
+server = "app:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["mock_network_env*"]
+
+[tool.uv]
+managed = true
+package = true
